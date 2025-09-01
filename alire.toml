@@ -1,0 +1,13 @@
+name = "sdlada_net"
+description = "Ada 2022 bindings to SDL_net"
+version = "0.1.0-dev"
+
+authors = ["Luke A. Guest"]
+maintainers = ["Luke A. Guest <laguest@archeia.com>"]
+maintainers-logins = ["lucretia"]
+licenses = "Zlib"
+website = "https://github.com/ada-game-framework"
+tags = ["sdl2", "net", "network", "sockets"]
+
+[[depends-on]]
+sdlada = "^2.5.20"
