@@ -949,7 +949,7 @@ package SDL.Net is
   -- * \sa SDLNet_AddSocket
   --
 
-   function TCP_Add_Socket (set : Socket_Set; sock : TCP_Socket) return int  -- SDL_net/include/SDL_net.h:826
+   function Add_Socket (set : Socket_Set; sock : TCP_Socket) return int  -- SDL_net/include/SDL_net.h:826
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_AddSocket";
@@ -970,7 +970,7 @@ package SDL.Net is
   -- * \sa SDLNet_AddSocket
   --
 
-   function UDP_Add_Socket (set : Socket_Set; sock : UDP_Socket) return int  -- SDL_net/include/SDL_net.h:846
+   function Add_Socket (set : Socket_Set; sock : UDP_Socket) return int  -- SDL_net/include/SDL_net.h:846
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_AddSocket";
@@ -1024,7 +1024,7 @@ package SDL.Net is
   -- * \sa SDLNet_DelSocket
   --
 
-   function TCP_Delete_Socket (set : Socket_Set; sock : TCP_Socket) return int  -- SDL_net/include/SDL_net.h:896
+   function Delete_Socket (set : Socket_Set; sock : TCP_Socket) return int  -- SDL_net/include/SDL_net.h:896
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_DelSocket";
@@ -1045,7 +1045,7 @@ package SDL.Net is
   -- * \sa SDLNet_DelSocket
   --
 
-   function UDP_Delete_Socket (set : Socket_Set; sock : UDP_Socket) return int  -- SDL_net/include/SDL_net.h:916
+   function Delete_Socket (set : Socket_Set; sock : UDP_Socket) return int  -- SDL_net/include/SDL_net.h:916
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_DelSocket";
