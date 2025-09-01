@@ -3,8 +3,10 @@ with Interfaces.C.Strings;
 with System;
 
 with SDL.Versions;
+with SDL.Net_Linker;
 
 package SDL.Net is
+   pragma Linker_Options (SDL.Net_Linker.Image_Linker_Options);
 
    SDL_NET_MAJOR_VERSION : constant := 2;  --  SDL_net/include/SDL_net.h:57
    SDL_NET_MINOR_VERSION : constant := 3;  --  SDL_net/include/SDL_net.h:58

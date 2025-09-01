@@ -2,10 +2,24 @@ with "config/sdlada_net_config.gpr";
 with "sdlada.gpr";
 
 project SDLAda_Net is
+   type Platform_Type is ("linux", "bsd", "windows", "macosx", "macos_homebrew", "macos_ports", "ios", "android");
+
+   Platform : Platform_Type := external ("SDLADA_MIXER_PLATFORM", "linux");
+
+   Source_Platform_Linker := "";
+
+   case Platform is
+      when "macosx" =>
+         Source_Platform_Linker := "src/link/macosx";
+
+      when others =>
+         Source_Platform_Linker := "src/link/nix";
+   end case;
+
    for Library_Name use "sdlada_net";
    for Library_Version use Project'Library_Name & ".so." & Sdlada_Net_Config.Crate_Version;
 
-   for Source_Dirs use ("src/", "config/");
+   for Source_Dirs use ("src/", Source_Platform_Linker, "config/");
    for Object_Dir use "obj/" & Sdlada_Net_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Library_Dir use "lib";
