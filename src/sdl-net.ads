@@ -57,7 +57,7 @@ package SDL.Net is
   --  3. This notice may not be removed or altered from any source distribution.
   --
 
-   subtype SDLNet_version is SDL.Versions.Version;  -- SDL_net/include/SDL_net.h:44
+   subtype Version is SDL.Versions.Version;  -- SDL_net/include/SDL_net.h:44
 
   -- Set up for C function definitions, even when using C++
   -- Printable format: "%d.%d.%d", MAJOR, MINOR, PATCHLEVEL
@@ -95,7 +95,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_Linked_Version return access constant SDLNet_version  -- SDL_net/include/SDL_net.h:107
+   function Linked_Version return access constant Version  -- SDL_net/include/SDL_net.h:107
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_Linked_Version";
@@ -119,7 +119,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_Init return int  -- SDL_net/include/SDL_net.h:127
+   function Initialise return int  -- SDL_net/include/SDL_net.h:127
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_Init";
@@ -137,7 +137,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   procedure SDLNet_Quit  -- SDL_net/include/SDL_net.h:141
+   procedure Quit  -- SDL_net/include/SDL_net.h:141
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_Quit";
@@ -145,7 +145,7 @@ package SDL.Net is
   -- IPv4 hostname resolution API...
   -- 32-bit IPv4 host address
   -- 16-bit protocol port
-   type IPaddress is record
+   type IP_Address is record
       host : aliased Interfaces.Unsigned_32;  -- SDL_net/include/SDL_net.h:147
       port : aliased Interfaces.Unsigned_16;  -- SDL_net/include/SDL_net.h:148
    end record
@@ -167,8 +167,8 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_ResolveHost
-     (address : access IPaddress;
+   function Resolve_Host
+     (address : access IP_Address;
       host : Interfaces.C.Strings.chars_ptr;
       port : Interfaces.Unsigned_16) return int  -- SDL_net/include/SDL_net.h:179
    with Import => True,
@@ -188,7 +188,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_ResolveIP (ip : access constant IPaddress) return Interfaces.C.Strings.chars_ptr  -- SDL_net/include/SDL_net.h:193
+   function Resolve_IP (ip : access constant IP_Address) return Interfaces.C.Strings.chars_ptr  -- SDL_net/include/SDL_net.h:193
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_ResolveIP";
@@ -203,15 +203,15 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_GetLocalAddresses (addresses : access IPaddress; maxcount : int) return int  -- SDL_net/include/SDL_net.h:204
+   function Get_Local_Addresses (addresses : access IP_Address; maxcount : int) return int  -- SDL_net/include/SDL_net.h:204
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_GetLocalAddresses";
 
   -- TCP network API
-   type u_TCPsocket is null record;   -- incomplete struct
+   type u_TCP_Socket is null record;   -- incomplete struct
 
-   type TCPsocket is access all u_TCPsocket;  -- SDL_net/include/SDL_net.h:209
+   type TCP_Socket is access all u_TCP_Socket;  -- SDL_net/include/SDL_net.h:209
 
   --*
   -- * Open a server TCP network socket.
@@ -231,7 +231,7 @@ package SDL.Net is
   -- * \sa SDLNet_TCP_Open
   --
 
-   function SDLNet_TCP_OpenServer (ip : access IPaddress) return TCPsocket  -- SDL_net/include/SDL_net.h:228
+   function TCP_Open_Server (ip : access IP_Address) return TCP_Socket  -- SDL_net/include/SDL_net.h:228
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_OpenServer";
@@ -253,7 +253,7 @@ package SDL.Net is
   -- * \sa SDLNet_TCP_Open
   --
 
-   function SDLNet_TCP_OpenClient (ip : access IPaddress) return TCPsocket  -- SDL_net/include/SDL_net.h:246
+   function TCP_Open_Client (ip : access IP_Address) return TCP_Socket  -- SDL_net/include/SDL_net.h:246
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_OpenClient";
@@ -277,7 +277,7 @@ package SDL.Net is
   -- * \sa SDLNet_TCP_OpenClient
   --
 
-   function SDLNet_TCP_Open (ip : access IPaddress) return TCPsocket  -- SDL_net/include/SDL_net.h:266
+   function TCP_Open (ip : access IP_Address) return TCP_Socket  -- SDL_net/include/SDL_net.h:266
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_Open";
@@ -295,7 +295,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_TCP_Accept (server : TCPsocket) return TCPsocket  -- SDL_net/include/SDL_net.h:280
+   function TCP_Accept (server : TCP_Socket) return TCP_Socket  -- SDL_net/include/SDL_net.h:280
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_Accept";
@@ -315,7 +315,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_TCP_GetPeerAddress (sock : TCPsocket) return access IPaddress  -- SDL_net/include/SDL_net.h:296
+   function TCP_Get_Peer_Address (sock : TCP_Socket) return access IP_Address  -- SDL_net/include/SDL_net.h:296
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_GetPeerAddress";
@@ -347,8 +347,8 @@ package SDL.Net is
   -- * \sa SDLNet_TCP_Recv
   --
 
-   function SDLNet_TCP_Send
-     (sock : TCPsocket;
+   function TCP_Send
+     (sock : TCP_Socket;
       data : System.Address;
       len : int) return int  -- SDL_net/include/SDL_net.h:324
    with Import => True,
@@ -386,8 +386,8 @@ package SDL.Net is
   -- * \sa SDLNet_CheckSockets
   --
 
-   function SDLNet_TCP_Recv
-     (sock : TCPsocket;
+   function TCP_Recieve
+     (sock : TCP_Socket;
       data : System.Address;
       maxlen : int) return int  -- SDL_net/include/SDL_net.h:356
    with Import => True,
@@ -408,7 +408,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   procedure SDLNet_TCP_Close (sock : TCPsocket)  -- SDL_net/include/SDL_net.h:371
+   procedure TCP_Close (sock : TCP_Socket)  -- SDL_net/include/SDL_net.h:371
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_Close";
@@ -416,9 +416,9 @@ package SDL.Net is
   -- UDP network API
   -- The maximum channels on a a UDP socket
   -- The maximum addresses bound to a single UDP socket channel
-   type u_UDPsocket is null record;   -- incomplete struct
+   type u_UDP_Socket is null record;   -- incomplete struct
 
-   type UDPsocket is access all u_UDPsocket;  -- SDL_net/include/SDL_net.h:381
+   type UDP_Socket is access all u_UDP_Socket;  -- SDL_net/include/SDL_net.h:381
 
   -- The src/dst channel of the packet
   -- The packet data
@@ -426,13 +426,13 @@ package SDL.Net is
   -- The size of the data buffer
   -- packet status after sending
   -- The source/dest address of an incoming/outgoing packet
-   type UDPpacket is record
+   type UDP_Packet is record
       channel : aliased int;  -- SDL_net/include/SDL_net.h:383
       data : access Interfaces.Unsigned_8;  -- SDL_net/include/SDL_net.h:384
       len : aliased int;  -- SDL_net/include/SDL_net.h:385
       maxlen : aliased int;  -- SDL_net/include/SDL_net.h:386
       status : aliased int;  -- SDL_net/include/SDL_net.h:387
-      address : aliased IPaddress;  -- SDL_net/include/SDL_net.h:388
+      address : aliased IP_Address;  -- SDL_net/include/SDL_net.h:388
    end record
    with Convention => C_Pass_By_Copy;  -- SDL_net/include/SDL_net.h:389
 
@@ -458,7 +458,7 @@ package SDL.Net is
   -- * \sa SDLNet_AllocPacketV
   --
 
-   function SDLNet_AllocPacket (size : int) return access UDPpacket  -- SDL_net/include/SDL_net.h:412
+   function Allocate_Packet (size : int) return access UDP_Packet  -- SDL_net/include/SDL_net.h:412
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_AllocPacket";
@@ -492,7 +492,7 @@ package SDL.Net is
   -- * \sa SDLNet_FreePacket
   --
 
-   function SDLNet_ResizePacket (packet : access UDPpacket; newsize : int) return int  -- SDL_net/include/SDL_net.h:443
+   function Resize_Packet (packet : access UDP_Packet; newsize : int) return int  -- SDL_net/include/SDL_net.h:443
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_ResizePacket";
@@ -511,7 +511,7 @@ package SDL.Net is
   -- * \sa SDLNet_ResizePacket
   --
 
-   procedure SDLNet_FreePacket (packet : access UDPpacket)  -- SDL_net/include/SDL_net.h:459
+   procedure Free_Packet (packet : access UDP_Packet)  -- SDL_net/include/SDL_net.h:459
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_FreePacket";
@@ -534,7 +534,7 @@ package SDL.Net is
   -- * \sa SDLNet_FreePacketV
   --
 
-   function SDLNet_AllocPacketV (howmany : int; size : int) return System.Address  -- SDL_net/include/SDL_net.h:478
+   function Alloc_Packet_V (howmany : int; size : int) return System.Address  -- SDL_net/include/SDL_net.h:478
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_AllocPacketV";
@@ -557,7 +557,7 @@ package SDL.Net is
   -- * \sa SDLNet_AllocPacketV
   --
 
-   procedure SDLNet_FreePacketV (packetV : System.Address)  -- SDL_net/include/SDL_net.h:498
+   procedure Free_Packet_V (packetV : System.Address)  -- SDL_net/include/SDL_net.h:498
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_FreePacketV";
@@ -587,7 +587,7 @@ package SDL.Net is
   -- * \sa SDLNet_UDP_Bind
   --
 
-   function SDLNet_UDP_Open (port : Interfaces.Unsigned_16) return UDPsocket  -- SDL_net/include/SDL_net.h:524
+   function UDP_Open (port : Interfaces.Unsigned_16) return UDP_Socket  -- SDL_net/include/SDL_net.h:524
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_Open";
@@ -610,7 +610,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   procedure SDLNet_UDP_SetPacketLoss (sock : UDPsocket; percent : int)  -- SDL_net/include/SDL_net.h:543
+   procedure UDP_Set_Packet_Loss (sock : UDP_Socket; percent : int)  -- SDL_net/include/SDL_net.h:543
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_SetPacketLoss";
@@ -642,10 +642,10 @@ package SDL.Net is
   -- * \sa SDLNet_UDP_Unbind
   --
 
-   function SDLNet_UDP_Bind
-     (sock : UDPsocket;
+   function UDP_Bind
+     (sock : UDP_Socket;
       channel : int;
-      address : access constant IPaddress) return int  -- SDL_net/include/SDL_net.h:571
+      address : access constant IP_Address) return int  -- SDL_net/include/SDL_net.h:571
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_Bind";
@@ -665,7 +665,7 @@ package SDL.Net is
   -- * \sa SDLNet_UDP_Bind
   --
 
-   procedure SDLNet_UDP_Unbind (sock : UDPsocket; channel : int)  -- SDL_net/include/SDL_net.h:587
+   procedure UDP_Unbind (sock : UDP_Socket; channel : int)  -- SDL_net/include/SDL_net.h:587
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_Unbind";
@@ -685,7 +685,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_UDP_GetPeerAddress (sock : UDPsocket; channel : int) return access IPaddress  -- SDL_net/include/SDL_net.h:603
+   function UDP_Get_Peer_Address (sock : UDP_Socket; channel : int) return access IP_Address  -- SDL_net/include/SDL_net.h:603
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_GetPeerAddress";
@@ -729,8 +729,8 @@ package SDL.Net is
   -- * \sa SDLNet_UDP_RecvV
   --
 
-   function SDLNet_UDP_SendV
-     (sock : UDPsocket;
+   function UDP_Send_V
+     (sock : UDP_Socket;
       packets : System.Address;
       npackets : int) return int  -- SDL_net/include/SDL_net.h:643
    with Import => True,
@@ -769,10 +769,10 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_UDP_Send
-     (sock : UDPsocket;
+   function UDP_Send
+     (sock : UDP_Socket;
       channel : int;
-      packet : access UDPpacket) return int  -- SDL_net/include/SDL_net.h:676
+      packet : access UDP_Packet) return int  -- SDL_net/include/SDL_net.h:676
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_Send";
@@ -808,7 +808,7 @@ package SDL.Net is
   -- * \sa SDLNet_UDP_Recv
   --
 
-   function SDLNet_UDP_RecvV (sock : UDPsocket; packets : System.Address) return int  -- SDL_net/include/SDL_net.h:708
+   function UDP_Receive_V (sock : UDP_Socket; packets : System.Address) return int  -- SDL_net/include/SDL_net.h:708
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_RecvV";
@@ -838,7 +838,7 @@ package SDL.Net is
   -- * \sa SDLNet_UDP_RecvV
   --
 
-   function SDLNet_UDP_Recv (sock : UDPsocket; packet : access UDPpacket) return int  -- SDL_net/include/SDL_net.h:734
+   function UDP_Receive (sock : UDP_Socket; packet : access UDP_Packet) return int  -- SDL_net/include/SDL_net.h:734
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_Recv";
@@ -855,7 +855,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   procedure SDLNet_UDP_Close (sock : UDPsocket)  -- SDL_net/include/SDL_net.h:747
+   procedure UDP_Close (sock : UDP_Socket)  -- SDL_net/include/SDL_net.h:747
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_Close";
@@ -863,17 +863,17 @@ package SDL.Net is
   --*********************************************************************
   -- Hooks for checking sockets for available data
   --*********************************************************************
-   type u_SDLNet_SocketSet is null record;   -- incomplete struct
+   type u_Socket_Set is null record;   -- incomplete struct
 
-   type SDLNet_SocketSet is access all u_SDLNet_SocketSet;  -- SDL_net/include/SDL_net.h:754
+   type Socket_Set is access all u_Socket_Set;  -- SDL_net/include/SDL_net.h:754
 
   -- Any network socket can be safely cast to this socket type
-   type u_SDLNet_GenericSocket is record
+   type u_Generic_Socket is record
       ready : aliased int;  -- SDL_net/include/SDL_net.h:758
    end record
    with Convention => C_Pass_By_Copy;  -- SDL_net/include/SDL_net.h:757
 
-   type SDLNet_GenericSocket is access all u_SDLNet_GenericSocket;  -- SDL_net/include/SDL_net.h:759
+   type Generic_Socket is access all u_Generic_Socket;  -- SDL_net/include/SDL_net.h:759
 
   --*
   -- * Allocate a socket set for use with SDLNet_CheckSockets().
@@ -894,7 +894,7 @@ package SDL.Net is
   -- * \sa SDLNet_FreeSocketSet
   --
 
-   function SDLNet_AllocSocketSet (maxsockets : int) return SDLNet_SocketSet  -- SDL_net/include/SDL_net.h:779
+   function Allocate_Socket_Set (maxsockets : int) return Socket_Set  -- SDL_net/include/SDL_net.h:779
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_AllocSocketSet";
@@ -928,7 +928,7 @@ package SDL.Net is
   -- * \sa SDLNet_CheckSockets
   --
 
-   function SDLNet_AddSocket (set : SDLNet_SocketSet; sock : SDLNet_GenericSocket) return int  -- SDL_net/include/SDL_net.h:809
+   function Add_Socket (set : Socket_Set; sock : Generic_Socket) return int  -- SDL_net/include/SDL_net.h:809
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_AddSocket";
@@ -949,7 +949,7 @@ package SDL.Net is
   -- * \sa SDLNet_AddSocket
   --
 
-   function SDLNet_TCP_AddSocket (set : SDLNet_SocketSet; sock : TCPsocket) return int  -- SDL_net/include/SDL_net.h:826
+   function TCP_Add_Socket (set : Socket_Set; sock : TCP_Socket) return int  -- SDL_net/include/SDL_net.h:826
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_AddSocket";
@@ -970,7 +970,7 @@ package SDL.Net is
   -- * \sa SDLNet_AddSocket
   --
 
-   function SDLNet_UDP_AddSocket (set : SDLNet_SocketSet; sock : UDPsocket) return int  -- SDL_net/include/SDL_net.h:846
+   function UDP_Add_Socket (set : Socket_Set; sock : UDP_Socket) return int  -- SDL_net/include/SDL_net.h:846
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_AddSocket";
@@ -1003,7 +1003,7 @@ package SDL.Net is
   -- * \sa SDLNet_CheckSockets
   --
 
-   function SDLNet_DelSocket (set : SDLNet_SocketSet; sock : SDLNet_GenericSocket) return int  -- SDL_net/include/SDL_net.h:879
+   function Delete_Socket (set : Socket_Set; sock : Generic_Socket) return int  -- SDL_net/include/SDL_net.h:879
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_DelSocket";
@@ -1024,7 +1024,7 @@ package SDL.Net is
   -- * \sa SDLNet_DelSocket
   --
 
-   function SDLNet_TCP_DelSocket (set : SDLNet_SocketSet; sock : TCPsocket) return int  -- SDL_net/include/SDL_net.h:896
+   function TCP_Delete_Socket (set : Socket_Set; sock : TCP_Socket) return int  -- SDL_net/include/SDL_net.h:896
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_TCP_DelSocket";
@@ -1045,7 +1045,7 @@ package SDL.Net is
   -- * \sa SDLNet_DelSocket
   --
 
-   function SDLNet_UDP_DelSocket (set : SDLNet_SocketSet; sock : UDPsocket) return int  -- SDL_net/include/SDL_net.h:916
+   function UDP_Delete_Socket (set : Socket_Set; sock : UDP_Socket) return int  -- SDL_net/include/SDL_net.h:916
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_UDP_DelSocket";
@@ -1068,7 +1068,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_CheckSockets (set : SDLNet_SocketSet; timeout : Interfaces.Unsigned_32) return int  -- SDL_net/include/SDL_net.h:938
+   function Check_Sockets (set : Socket_Set; timeout : Interfaces.Unsigned_32) return int  -- SDL_net/include/SDL_net.h:938
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_CheckSockets";
@@ -1102,7 +1102,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   procedure SDLNet_FreeSocketSet (set : SDLNet_SocketSet)  -- SDL_net/include/SDL_net.h:972
+   procedure Free_Socket_Set (set : Socket_Set)  -- SDL_net/include/SDL_net.h:972
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_FreeSocketSet";
@@ -1120,7 +1120,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   procedure SDLNet_SetError (fmt : Interfaces.C.Strings.chars_ptr  -- , ...
+   procedure Set_Error (fmt : Interfaces.C.Strings.chars_ptr  -- , ...
       )  -- SDL_net/include/SDL_net.h:988
    with Import => True,
         Convention => C,
@@ -1139,7 +1139,7 @@ package SDL.Net is
   -- * \since This function is available since SDL_net 2.0.0.
   --
 
-   function SDLNet_GetError return Interfaces.C.Strings.chars_ptr  -- SDL_net/include/SDL_net.h:1002
+   function Get_Error return Interfaces.C.Strings.chars_ptr  -- SDL_net/include/SDL_net.h:1002
    with Import => True,
         Convention => C,
         External_Name => "SDLNet_GetError";
